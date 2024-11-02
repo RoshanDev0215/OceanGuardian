@@ -8,7 +8,7 @@ const APIS = {
     },
     GUARDIAN: {
         BASE_URL: 'https://content.guardianapis.com',
-        KEY: '76a690b54a1c5f5b91fdeccd7d744f7c' 
+        KEY: '76a690b54a1c5f5b91fdeccd7d744f7c'  // Replace with your Guardian API key
     },
     ERDDAP: {
         BASE_URL: 'https://coastwatch.pfeg.noaa.gov/erddap/tabledap'
@@ -78,33 +78,43 @@ async function loadContent(section) {
             case 'ocean-health':
                 await loadOceanHealth(contentDiv);
                 break;
+
             case 'marine-life':
                 await loadMarineLife(contentDiv);
                 break;
+
             case 'pollution':
                 await loadPollution(contentDiv);
                 break;
+
             case 'climate':
                 await loadClimate(contentDiv);
                 break;
+
             case 'seafood':
                 await loadSeafood(contentDiv);
                 break;
+
             case 'news':
                 await loadNews(contentDiv);
                 break;
+
             case 'calculator':
                 loadCalculator(contentDiv);
                 break;
+
             case 'community':
                 await loadCommunity(contentDiv);
                 break;
+
             case 'quiz':
                 loadQuiz(contentDiv);
                 break;
+
             case 'donate':
                 loadDonation(contentDiv);
                 break;
+
             case 'prevention':
                 const preventionSection = document.getElementById('prevention-section');
                 if (preventionSection) {
@@ -112,6 +122,7 @@ async function loadContent(section) {
                     initializePrevention();
                 }
                 break;
+
             default:
                 contentDiv.innerHTML = `
                     <h2>${section.replace('-', ' ').toUpperCase()}</h2>
@@ -138,20 +149,23 @@ function initializePrevention() {
             const content = this.nextElementSibling;
             const arrow = this.querySelector('.arrow');
             
-            // Toggle arrow
-            arrow.style.transform = content.classList.contains('active') ? 'rotate(0deg)' : 'rotate(180deg)';
-            
-            // Toggle content
-            content.classList.toggle('active');
-            
-            // Close other categories
+            // Close all other categories first
             document.querySelectorAll('.category-content').forEach(el => {
                 if (el !== content) {
                     el.classList.remove('active');
                     const otherArrow = el.previousElementSibling.querySelector('.arrow');
-                    if (otherArrow) otherArrow.style.transform = 'rotate(0deg)';
+                    if (otherArrow) {
+                        otherArrow.style.transform = 'rotate(0deg)';
+                    }
                 }
             });
+            
+            // Toggle current category
+            content.classList.toggle('active');
+            if (arrow) {
+                arrow.style.transform = content.classList.contains('active') ? 
+                    'rotate(180deg)' : 'rotate(0deg)';
+            }
         });
     });
 
@@ -163,21 +177,26 @@ function initializePrevention() {
             const content = this.nextElementSibling;
             const arrow = this.querySelector('.arrow');
             
-            // Toggle arrow
-            arrow.style.transform = content.classList.contains('active') ? 'rotate(0deg)' : 'rotate(180deg)';
-            
-            // Toggle content
-            content.classList.toggle('active');
-            
-            // Close other subcategories in the same category
+            // Close all other subcategories in the same category
             const category = this.closest('.category-content');
-            category.querySelectorAll('.subcategory-content').forEach(el => {
-                if (el !== content) {
-                    el.classList.remove('active');
-                    const otherArrow = el.previousElementSibling.querySelector('.arrow');
-                    if (otherArrow) otherArrow.style.transform = 'rotate(0deg)';
-                }
-            });
+            if (category) {
+                category.querySelectorAll('.subcategory-content').forEach(el => {
+                    if (el !== content) {
+                        el.classList.remove('active');
+                        const otherArrow = el.previousElementSibling.querySelector('.arrow');
+                        if (otherArrow) {
+                            otherArrow.style.transform = 'rotate(0deg)';
+                        }
+                    }
+                });
+            }
+            
+            // Toggle current subcategory
+            content.classList.toggle('active');
+            if (arrow) {
+                arrow.style.transform = content.classList.contains('active') ? 
+                    'rotate(180deg)' : 'rotate(0deg)';
+            }
         });
     });
 }
@@ -474,7 +493,6 @@ async function fetchMarineLifeData(species, map) {
 }
 
 
-// News Section
 async function loadNews(contentDiv) {
     contentDiv.innerHTML = `
         <h2>Ocean Conservation News</h2>
@@ -588,6 +606,7 @@ function showFallbackContent(newsGrid, category) {
         </div>
     `;
 }
+
 
 
 // Climate Section
@@ -1609,6 +1628,7 @@ async function updatePollutionData() {
 }
 
 function getPollutionData(region, year) {
+    // Simulate real data with realistic variations based on region and year
     const baseData = {
         pacific: { plastic: 8.5, chemical: 6.2, oil: 4.8 },
         atlantic: { plastic: 7.2, chemical: 5.8, oil: 5.1 },
@@ -1619,6 +1639,7 @@ function getPollutionData(region, year) {
     const yearFactor = (parseInt(year) - 2015) * 0.15;
     const currentData = baseData[region];
 
+    // Generate monthly data with seasonal variations
     const monthlyData = Array.from({ length: 12 }, (_, month) => {
         const seasonalFactor = Math.sin((month + 6) * Math.PI / 6) * 0.2;
         return {
@@ -1629,6 +1650,7 @@ function getPollutionData(region, year) {
         };
     });
 
+    // Generate hotspots data
     const hotspots = generateHotspots(region);
 
     return {
@@ -1866,4 +1888,3 @@ function initializePrevention() {
         });
     });
 }
-
