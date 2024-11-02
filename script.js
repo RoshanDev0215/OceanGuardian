@@ -498,28 +498,24 @@ async function loadNews(contentDiv) {
         await fetchNews(e.target.value);
     });
 
-    await fetchNews('ocean conservation');
+    await fetchNews('ocean conservation'); // Load default category on initial load
 }
 
 async function fetchNews(category) {
+    const apiKey = '76a690b54a1c5f5b91fdeccd7d744f7c'; // Your GNews API key
+    const proxyUrl = `https://corsproxy.io/?`;
+    const gnewsUrl = `https://gnews.io/api/v4/search?q=${encodeURIComponent(category)}&token=${apiKey}&lang=en&sortby=published`;
+
     try {
         showLoading();
-        
-        // Using corsproxy.io as proxy
-        const googleNewsUrl = `https://news.google.com/rss/search?q=${encodeURIComponent(category)}+when:7d&hl=en-US&gl=US&ceid=US:en`;
-        const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(googleNewsUrl)}`;
-        
-        const response = await fetch(proxyUrl);
+        const response = await fetch(`${proxyUrl}${gnewsUrl}`);
         
         if (!response.ok) {
             throw new Error('Failed to fetch news');
         }
 
-        const data = await response.text(); // Get response as text since it's RSS/XML
-        
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(data, "text/xml");
-        displayNews(xmlDoc, category);
+        const data = await response.json();
+        displayNews(data.articles, category); // Updated to handle JSON response
 
         hideLoading();
     } catch (error) {
@@ -529,20 +525,16 @@ async function fetchNews(category) {
     }
 }
 
-function displayNews(xmlDoc, category) {
+function displayNews(articles, category) {
     const newsGrid = document.getElementById('newsGrid');
-    const items = xmlDoc.getElementsByTagName('item');
 
-    if (items.length > 0) {
-        const articlesHTML = Array.from(items).slice(0, 12).map(item => {
-            const title = item.getElementsByTagName('title')[0].textContent;
-            const link = item.getElementsByTagName('link')[0].textContent;
-            // Get description and clean it from HTML tags
-            const description = item.getElementsByTagName('description')[0].textContent
-                .replace(/<[^>]*>/g, '') // Remove HTML tags
-                .replace(/&nbsp;/g, ' '); // Replace &nbsp; with space
-            const date = new Date(item.getElementsByTagName('pubDate')[0].textContent);
-            const source = item.getElementsByTagName('source')[0].textContent;
+    if (articles.length > 0) {
+        const articlesHTML = articles.slice(0, 12).map(article => {
+            const title = article.title;
+            const link = article.url;
+            const description = article.description || "No description available."; // Handle missing descriptions
+            const date = new Date(article.publishedAt);
+            const source = article.source.name;
 
             return `
                 <div class="news-card">
@@ -571,7 +563,7 @@ function displayNews(xmlDoc, category) {
         newsGrid.innerHTML = `
             <div class="news-header">
                 <h3>Latest News for: ${category.charAt(0).toUpperCase() + category.slice(1)}</h3>
-                <p>Showing ${Math.min(items.length, 12)} recent articles</p>
+                <p>Showing ${Math.min(articles.length, 12)} recent articles</p>
             </div>
             ${articlesHTML}
         `;
@@ -579,14 +571,8 @@ function displayNews(xmlDoc, category) {
         showFallbackContent(newsGrid, category);
     }
 }
-function showFallbackContent(newsGrid, category) {
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
 
+function showFallbackContent(newsGrid, category) {
     newsGrid.innerHTML = `
         <div class="no-results">
             <h3>No recent news found for "${category}"</h3>
@@ -602,6 +588,8 @@ function showFallbackContent(newsGrid, category) {
         </div>
     `;
 }
+
+
 // Climate Section
 async function loadClimate(contentDiv) {
     contentDiv.innerHTML = `
