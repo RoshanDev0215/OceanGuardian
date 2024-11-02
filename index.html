@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OceanGuardian</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- External libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+</head>
+<body>
+    <header>
+        <h1>OceanGuardian</h1>
+        <p>Protecting Our Oceans Through Knowledge and Action</p>
+    </header>
+    <div class="container">
+        <div class="button-grid">
+            <!-- Top Priority Row -->
+            <div class="menu-item" data-section="prevention">
+                <div class="menu-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <h3>Prevention Guide</h3>
+                <p>Learn how to protect our oceans</p>
+            </div>
+            <div class="menu-item" data-section="seafood">
+                <div class="menu-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 12c0-3 2.5-5.5 5.5-5.5S23 9 23 12c0 3-2.5 5.5-5.5 5.5S12 15 12 12z"/>
+                        <path d="M12 12c0 3-2.5 5.5-5.5 5.5S1 15 1 12c0-3 2.5-5.5 5.5-5.5S12 9 12 12z"/>
+                        <path d="M20 12h-8"/>
+                        <path d="M4 12h8"/>
+                    </svg>
+                </div>
+                <h3>Sustainable Seafood</h3>
+                <p>Make ocean-friendly choices</p>
+            </div>
+            <div class="menu-item" data-section="news">
+                <div class="menu-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
+                        <path d="M18 14h-8"/>
+                        <path d="M18 18h-8"/>
+                        <path d="M18 10h-8"/>
+                    </svg>
+                </div>
+                <h3>Conservation News</h3>
+                <p>Stay informed about ocean health</p>
+            </div>
+            
+            <!-- Second Row -->
+            <div class="menu-item" data-section="ocean-health">
+                <div class="menu-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M2 12c.8-.6 2.4-1 4-1 3 0 4 2 7 2 3.5 0 4-2 4-2"/>
+                        <path d="M2 17c.8-.6 2.4-1 4-1 3 0 4 2 7 2 3.5 0 4-2 4-2"/>
+                        <path d="M2 7c.8-.6 2.4-1 4-1 3 0 4 2 7 2 3.5 0 4-2 4-2"/>
+                    </svg>
+                </div>
+                <h3>Ocean Health</h3>
+                <p>Monitor ocean vital signs</p>
+            </div>
+            <div class="menu-item" data-section="marine-life">
+                <div class="menu-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M16.5 19.5c4-4 4-11-4-11s-8 7-4 11m-4-8s.5-2 2.5-2 2.5 2 2.5 2"/>
+                        <circle cx="10" cy="9" r="1"/>
+                    </svg>
+                </div>
+                <h3>Marine Life</h3>
+                <p>Track ocean biodiversity</p>
+            </div>
+            <div class="menu-item" data-section="pollution">
+                <div class="menu-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        <path d="M3.3 7l8.7 5 8.7-5"/>
+                        <path d="M12 22V12"/>
+                    </svg>
+                </div>
+                <h3>Pollution Monitor</h3>
+                <p>Track ocean contamination</p>
+            </div>
+
+            <!-- Third Row -->
+<div class="menu-item" data-section="climate">
+    <div class="menu-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M12 2c-5.52 0-10 4.48-10 10s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v2h-2zm0 4h2v6h-2z" />
+        </svg>
+    </div>
+                <h3>Climate Impact</h3>
+                <p>Analyze climate effects</p>
+            </div>
+            <div class="menu-item" data-section="calculator">
+                <div class="menu-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="4" y="2" width="16" height="20" rx="2"/>
+                        <line x1="8" y1="10" x2="16" y2="10"/>
+                        <line x1="8" y1="14" x2="16" y2="14"/>
+                        <line x1="8" y1="18" x2="16" y2="18"/>
+                    </svg>
+                </div>
+                <h3>Impact Calculator</h3>
+                <p>Measure your ocean impact</p>
+            </div>
+<div class="menu-item" data-section="question">
+    <div class="menu-icon">
+        <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M12 4C9.243 4 7 6.243 7 9h2c0-1.654 1.346-3 3-3s3 1.346 3 3c0 1.069-.454 1.465-1.481 2.255-.382.294-.813.626-1.226 1.038C10.981 13.604 10.995 14.897 11 15v2h2v-2.009c0-.024.023-.601.707-1.284.32-.32.682-.598 1.031-.867C15.798 12.024 17 11.1 17 9c0-2.757-2.243-5-5-5zm-1 14h2v2h-2z"/>
+        </svg>
+    </div>
+        <h3>Ocean Quiz</h3>
+        <p>Test your knowledge</p>
+    </div>
+
+            <!-- Last Row -->
+            <div class="menu-item" data-section="community">
+                <div class="menu-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                </div>
+                <h3>Community Action</h3>
+                <p>Join conservation efforts</p>
+            </div>
+            <div class="menu-item" data-section="donate">
+                <div class="menu-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <h3>Support Us</h3>
+                <p>Help fund ocean conservation</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-content">
+                <!-- Prevention Guide Section -->
+                <div class="prevention-guide" id="prevention-section" style="display: none;">
+                    <h2>Ocean Pollution Prevention Guide</h2>
+                    <div class="prevention-categories">
+                        <!-- Personal Actions -->
+                        <div class="category">
+                            <div class="category-header" data-category="personal">
+                                <h3>Personal Actions</h3>
+                                <span class="arrow">▼</span>
+                            </div>
+                            <div class="category-content" id="personal-content">
+                                <div class="subcategory">
+                                    <div class="subcategory-header" data-subcategory="reduce-plastic">
+                                        <h4>1. Reduce Single-Use Plastics</h4>
+                                        <span class="arrow">▼</span>
+                                    </div>
+                                    <div class="subcategory-content">
+                                        <ul>
+                                            <li>
+                                                <strong>Use reusable water bottles</strong>
+                                                <p>Impact: Prevents hundreds of plastic bottles from entering oceans annually</p>
+                                                <p>How: Replace disposable bottles with durable, reusable ones</p>
+                                            </li>
+                                            <li>
+                                                <strong>Carry reusable shopping bags</strong>
+                                                <p>Impact: Reduces plastic bag pollution that often entangles marine life</p>
+                                                <p>How: Keep bags in your car or near your door for shopping trips</p>
+                                            </li>
+                                            <li>
+                                                <strong>Choose products with minimal packaging</strong>
+                                                <p>Impact: Reduces microplastic pollution</p>
+                                                <p>How: Buy in bulk and select products with eco-friendly packaging</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="subcategory">
+                                    <div class="subcategory-header" data-subcategory="proper-disposal">
+                                        <h4>2. Proper Waste Disposal</h4>
+                                        <span class="arrow">▼</span>
+                                    </div>
+                                    <div class="subcategory-content">
+                                        <ul>
+                                            <li>
+                                                <strong>Secure trash bins</strong>
+                                                <p>Impact: Prevents waste from being blown into waterways</p>
+                                                <p>How: Use bins with secure lids and proper latching mechanisms</p>
+                                            </li>
+                                            <li>
+                                                <strong>Participate in cleanups</strong>
+                                                <p>Impact: Directly removes pollution from coastal areas</p>
+                                                <p>How: Join local beach cleanup events or organize your own</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Community Level Actions -->
+                        <div class="category">
+                            <div class="category-header" data-category="community">
+                                <h3>Community-Level Actions</h3>
+                                <span class="arrow">▼</span>
+                            </div>
+                            <div class="category-content" id="community-content">
+                                <div class="subcategory">
+                                    <div class="subcategory-header" data-subcategory="education">
+                                        <h4>1. Education and Awareness</h4>
+                                        <span class="arrow">▼</span>
+                                    </div>
+                                    <div class="subcategory-content">
+                                        <ul>
+                                            <li>
+                                                <strong>Support marine education</strong>
+                                                <p>Impact: Creates long-term behavioral change in communities</p>
+                                                <p>How: Organize workshops, share information, support local programs</p>
+                                            </li>
+                                            <li>
+                                                <strong>Participate in awareness campaigns</strong>
+                                                <p>Impact: Spreads knowledge about ocean conservation</p>
+                                                <p>How: Share on social media, participate in events, create educational content</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+<!-- Industrial Solutions -->
+                        <div class="category">
+                            <div class="category-header" data-category="industrial">
+                                <h3>Industrial Solutions</h3>
+                                <span class="arrow">▼</span>
+                            </div>
+                            <div class="category-content" id="industrial-content">
+                                <div class="subcategory">
+                                    <div class="subcategory-header" data-subcategory="waste-management">
+                                        <h4>1. Waste Management</h4>
+                                        <span class="arrow">▼</span>
+                                    </div>
+                                    <div class="subcategory-content">
+                                        <ul>
+                                            <li>
+                                                <strong>Implement closed-loop manufacturing</strong>
+                                                <p>Impact: Reduces industrial waste entering oceans</p>
+                                                <p>How: Support companies that use sustainable manufacturing processes</p>
+                                            </li>
+                                            <li>
+                                                <strong>Use biodegradable materials</strong>
+                                                <p>Impact: Reduces long-term pollution impact</p>
+                                                <p>How: Choose products from companies using eco-friendly materials</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
